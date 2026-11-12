@@ -1,0 +1,22 @@
+name: EvolutionCar - Lembretes Telegram
+
+on:
+  schedule:
+    # Roda todo dia às 13:30 (horário de Brasília = 16:30 UTC)
+    - cron: '30 16 * * *'
+  workflow_dispatch:  # permite rodar manualmente pelo GitHub
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rodar notificações
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID:        ${{ secrets.CHAT_ID }}
+          SUPA_URL:       ${{ secrets.SUPA_URL }}
+          SUPA_KEY:       ${{ secrets.SUPA_KEY }}
+        run: python notify.py
